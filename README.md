@@ -124,30 +124,6 @@ This is the whole point of the fixed-token design:
 
 ---
 
-## Sharing it with others (down the road)
-
-**Simplest:** push this repo to GitHub. Others clone it and run
-`./scripts/build-app.sh` (or open it in Xcode). Free, no Apple account.
-
-**Nicer (a downloadable installer):**
-```bash
-./scripts/build-app.sh
-./scripts/make-dmg.sh     # produces build/EvenToggle.dmg
-```
-Attach the `.dmg` to a **GitHub Release**. People download it and drag the app to
-Applications.
-
-**The Gatekeeper catch:** an app that isn't signed with a paid **Apple Developer**
-account ($99/yr) and *notarized* will show "unidentified developer" when someone
-downloads it. Two honest options:
-- Tell users to **right-click the app ▸ Open** (once), or run
-  `xattr -dr com.apple.quarantine /Applications/EvenToggle.app`.
-- Or enroll in the Apple Developer Program and add signing + `notarytool` to the
-  build script so it opens cleanly for everyone. (Overkill for a personal tool;
-  worth it if it gets popular.)
-
----
-
 ## Troubleshooting
 
 **First, run the doctor.** It checks everything and tells you what's wrong:
