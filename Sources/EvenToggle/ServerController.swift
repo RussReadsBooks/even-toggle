@@ -285,6 +285,12 @@ final class ServerController: ObservableObject {
             dict = parsed
         }
 
+        // Leave the user's Claude settings untouched unless the value changes
+        // (avoids rewriting/reformatting it, or replacing a symlink, every start).
+        let current = dict["model"] as? String
+        let wanted = (model?.isEmpty == false) ? model : nil
+        if current == wanted { return }
+
         if let model, !model.isEmpty {
             dict["model"] = model
         } else {
