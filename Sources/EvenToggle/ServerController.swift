@@ -37,10 +37,14 @@ final class ServerController: ObservableObject {
     @AppStorage("keepAwake")        var keepAwake = true
     // Leave blank to auto-detect. Only set this to override the detected path.
     @AppStorage("evenTerminalPath") var evenTerminalPath = ""
+    // PID of the server we last launched, so a crash/force-quit of this app
+    // can't leave it running unnoticed: it's reaped on the next launch.
+    @AppStorage("serverPID")        var serverPID = 0
 
     private var process: Process?
     private var caffeinate: Process?
     private var cachedPATH: String?
+    private var signalSources: [DispatchSourceSignal] = []
 
     init() {
         // Stop the server when the app quits, so it never keeps running orphaned
@@ -50,6 +54,40 @@ final class ServerController: ObservableObject {
         ) { [weak self] _ in
             MainActor.assumeIsolated { self?.stop() }
         }
+        // willTerminate doesn't fire for SIGTERM/SIGINT/SIGHUP (e.g. `kill`,
+        // logout edge cases), so handle those too. SIGKILL can't be caught;
+        // reapOrphan() covers that on the next launch.
+        for sig in [SIGTERM, SIGINT, SIGHUP] {
+            signal(sig, SIG_IGN)
+            let src = DispatchSource.makeSignalSource(signal: sig, queue: .main)
+            src.setEventHandler { [weak self] in
+                MainActor.assumeIsolated { self?.stop() }
+                exit(0)
+            }
+            src.resume()
+            signalSources.append(src)
+        }
+        reapOrphan()
+    }
+
+    /// If a server we launched outlived a previous run of this app, stop it.
+    private func reapOrphan() {
+        let pid = pid_t(serverPID)
+        guard pid > 0 else { return }
+        serverPID = 0
+        guard kill(pid, 0) == 0, Self.commandLine(of: pid)?.contains("even-terminal") == true else { return }
+        kill(pid, SIGTERM)
+        lastLog = "Stopped a leftover even-terminal (pid \(pid)) from a previous run."
+    }
+
+    private static func commandLine(of pid: pid_t) -> String? {
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/bin/ps")
+        p.arguments = ["-o", "command=", "-p", String(pid)]
+        let out = Pipe(); p.standardOutput = out; p.standardError = FileHandle.nullDevice
+        guard (try? p.run()) != nil else { return nil }
+        p.waitUntilExit()
+        return String(data: out.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
     }
 
     static let evenTerminalConfigPath =
@@ -161,6 +199,7 @@ final class ServerController: ObservableObject {
         do {
             try p.run()
             process = p
+            serverPID = Int(p.processIdentifier)
             isRunning = true
             let modelNote = (model == "default")
                 ? "Model: Claude Code default"
@@ -189,8 +228,16 @@ final class ServerController: ObservableObject {
     }
 
     func stop() {
-        process?.terminate()
+        if let p = process, p.isRunning {
+            let pid = p.processIdentifier
+            p.terminate()
+            // Escalate if it ignores SIGTERM, so it can't linger after "off".
+            DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
+                if kill(pid, 0) == 0 { kill(pid, SIGKILL) }
+            }
+        }
         process = nil
+        serverPID = 0
         caffeinate?.terminate()
         caffeinate = nil
         isRunning = false
