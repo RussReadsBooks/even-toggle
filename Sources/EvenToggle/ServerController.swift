@@ -41,6 +41,16 @@ final class ServerController: ObservableObject {
     private var process: Process?
     private var cachedPATH: String?
 
+    init() {
+        // Stop the server when the app quits, so it never keeps running orphaned
+        // while the menu bar icon says "off".
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.willTerminateNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.process?.terminate() }
+        }
+    }
+
     func toggle() { isRunning ? stop() : start() }
 
     func start() {
