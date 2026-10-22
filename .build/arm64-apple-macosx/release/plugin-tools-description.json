@@ -18,132 +18,125 @@
   ],
   "swiftCommands" : {
     "C.EvenToggle-arm64-apple-macosx-release.module" : {
-      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
-      "fileList" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/sources",
-      "importPath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/Modules",
+      "executable" : "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "fileList" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/sources",
+      "importPath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/Modules",
       "inputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/EvenToggleApp.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/EvenToggleApp.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/LaunchAtLogin.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/LaunchAtLogin.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/MenuContent.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/MenuContent.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/ServerController.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/ServerController.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/SettingsView.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/SettingsView.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/sources"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/sources"
         }
       ],
       "isLibrary" : false,
       "moduleName" : "EvenToggle",
-      "moduleOutputPath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/Modules/EvenToggle.swiftmodule",
+      "moduleOutputPath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/Modules/EvenToggle.swiftmodule",
       "objects" : [
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o",
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o",
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o",
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o",
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
       ],
       "otherArguments" : [
         "-target",
         "arm64-apple-macosx14.0",
         "-whole-module-optimization",
         "-num-threads",
-        "8",
+        "18",
         "-serialize-diagnostics",
         "-O",
-        "-j8",
+        "-j18",
         "-DSWIFT_PACKAGE",
         "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
         "-module-cache-path",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/ModuleCache",
+        "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/ModuleCache",
         "-parseable-output",
         "-Xfrontend",
         "-entry-point-function-name",
         "-Xfrontend",
         "EvenToggle_main",
-        "-color-diagnostics",
         "-swift-version",
         "5",
-        "-plugin-path",
-        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
-        "-sdk",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
-        "-F",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
         "-I",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
         "-L",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+        "-plugin-path",
+        "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
         "-g",
         "-Xcc",
         "-isysroot",
         "-Xcc",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
-        "-Xcc",
-        "-F",
-        "-Xcc",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
         "-Xcc",
         "-fPIC",
         "-Xcc",
         "-g",
         "-package-name",
-        "g2_terminalmode_launcher"
+        "even_toggle"
       ],
-      "outputFileMapPath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/output-file-map.json",
+      "outputFileMapPath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/output-file-map.json",
       "outputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/Modules/EvenToggle.swiftmodule"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/Modules/EvenToggle.swiftmodule"
         }
       ],
       "prepareForIndexing" : false,
       "sources" : [
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/EvenToggleApp.swift",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/LaunchAtLogin.swift",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/MenuContent.swift",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/ServerController.swift",
-        "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/SettingsView.swift"
+        "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/EvenToggleApp.swift",
+        "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/LaunchAtLogin.swift",
+        "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/MenuContent.swift",
+        "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/ServerController.swift",
+        "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/SettingsView.swift"
       ],
-      "tempsPath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build",
+      "tempsPath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build",
       "wholeModuleOptimization" : true
     }
   },
@@ -152,66 +145,59 @@
   },
   "swiftTargetScanArgs" : {
     "EvenToggle" : [
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
       "-module-name",
       "EvenToggle",
       "-package-name",
-      "g2_terminalmode_launcher",
+      "even_toggle",
       "-c",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/EvenToggleApp.swift",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/LaunchAtLogin.swift",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/MenuContent.swift",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/ServerController.swift",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/SettingsView.swift",
+      "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/EvenToggleApp.swift",
+      "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/LaunchAtLogin.swift",
+      "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/MenuContent.swift",
+      "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/ServerController.swift",
+      "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/SettingsView.swift",
       "-I",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/Modules",
+      "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/Modules",
       "-target",
       "arm64-apple-macosx14.0",
       "-whole-module-optimization",
       "-num-threads",
-      "8",
+      "18",
       "-serialize-diagnostics",
       "-O",
-      "-j8",
+      "-j18",
       "-DSWIFT_PACKAGE",
       "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
       "-module-cache-path",
-      "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/ModuleCache",
+      "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/ModuleCache",
       "-parseable-output",
       "-Xfrontend",
       "-entry-point-function-name",
       "-Xfrontend",
       "EvenToggle_main",
-      "-color-diagnostics",
       "-swift-version",
       "5",
-      "-plugin-path",
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
-      "-sdk",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
-      "-F",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
       "-I",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
       "-L",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+      "-plugin-path",
+      "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
       "-g",
       "-Xcc",
       "-isysroot",
       "-Xcc",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
-      "-Xcc",
-      "-F",
-      "-Xcc",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
       "-Xcc",
       "-fPIC",
       "-Xcc",
       "-g",
       "-package-name",
-      "g2_terminalmode_launcher",
+      "even_toggle",
       "-driver-use-frontend-path",
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+      "/Library/Developer/CommandLineTools/usr/bin/swiftc"
     ]
   },
   "targetDependencyMap" : {
@@ -231,7 +217,7 @@
     }
   },
   "writeCommands" : {
-    "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/sources" : {
+    "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/sources" : {
       "alwaysOutOfDate" : false,
       "inputs" : [
         {
@@ -240,28 +226,28 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/EvenToggleApp.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/EvenToggleApp.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/LaunchAtLogin.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/LaunchAtLogin.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/MenuContent.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/MenuContent.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/ServerController.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/ServerController.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/Sources/EvenToggle/SettingsView.swift"
+          "name" : "/Users/russellnewman/src/even-toggle/Sources/EvenToggle/SettingsView.swift"
         }
       ],
-      "outputFilePath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/sources"
+      "outputFilePath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/sources"
     },
-    "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.product/Objects.LinkFileList" : {
+    "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.product/Objects.LinkFileList" : {
       "alwaysOutOfDate" : false,
       "inputs" : [
         {
@@ -270,28 +256,28 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/EvenToggleApp.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/LaunchAtLogin.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/MenuContent.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/ServerController.swift.o"
         },
         {
           "kind" : "file",
-          "name" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
+          "name" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.build/SettingsView.swift.o"
         }
       ],
-      "outputFilePath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/EvenToggle.product/Objects.LinkFileList"
+      "outputFilePath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/EvenToggle.product/Objects.LinkFileList"
     },
-    "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt" : {
+    "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt" : {
       "alwaysOutOfDate" : true,
       "inputs" : [
         {
@@ -300,10 +286,10 @@
         },
         {
           "kind" : "file",
-          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+          "name" : "/Library/Developer/CommandLineTools/usr/bin/swiftc"
         }
       ],
-      "outputFilePath" : "/Users/thomaszebala/Documents/Claude/Projects/Even Realities G2/G2_terminalmode_launcher/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+      "outputFilePath" : "/Users/russellnewman/src/even-toggle/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
     }
   }
 }
