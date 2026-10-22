@@ -102,13 +102,27 @@ final class ServerController: ObservableObject {
             lastLog = "No ~/.even-terminal/config.json yet. Run `even-terminal config` in Terminal first."
             return
         }
+        // Validate settings before they reach the command line.
+        guard let portNum = Int(port.trimmingCharacters(in: .whitespaces)), (1024...65535).contains(portNum) else {
+            lastLog = "Port must be a number from 1024 to 65535."
+            return
+        }
+        guard ["claude", "codex"].contains(provider) else {
+            lastLog = "Unknown provider \"\(provider)\". Choose claude or codex."
+            return
+        }
+        if model == "custom",
+           customModel.isEmpty || customModel.range(of: #"^[A-Za-z0-9._:\[\]-]{1,100}$"#, options: .regularExpression) == nil {
+            lastLog = "Custom model id may only contain letters, digits and . _ : - [ ]"
+            return
+        }
         guard !projectPath.isEmpty else {
             lastLog = "Choose a project folder in Settings first."
             return
         }
 
         // 1) Figure out the real PATH (same as your Terminal), then find the CLI.
-        let path = resolvedPATH()
+        let path = Self.trustedPATH(resolvedPATH())
         guard let etPath = resolveEvenTerminal(searchPATH: path) else {
             lastLog = """
             Couldn't find even-terminal. Install it with:
@@ -145,7 +159,7 @@ final class ServerController: ObservableObject {
         //   even-terminal --provider claude -p <port> -d <folder> [--tailscale]
         // No -t: even-terminal takes the token from ~/.even-terminal/config.json,
         // so it never shows up in argv (visible to `ps`) or in this app's defaults.
-        var args = ["--provider", provider, "-p", port, "-d", project]
+        var args = ["--provider", provider, "-p", String(portNum), "-d", project]
         if useTailscale { args.append("--tailscale") }
         p.arguments = args
 
@@ -153,7 +167,9 @@ final class ServerController: ObservableObject {
         // (that's where `node` lives for nvm/Volta/etc., so the shebang resolves).
         var env = ProcessInfo.processInfo.environment
         let etDir = URL(fileURLWithPath: etPath).deletingLastPathComponent().path
-        env["PATH"] = etDir + ":" + path
+        // Only trusted (not group/world-writable) directories, so a planted
+        // `node`/`claude`/`tailscale` earlier in PATH can't be picked up.
+        env["PATH"] = Self.trustedPATH(etDir + ":" + path)
         // Don't let a stray inherited BRIDGE_TOKEN override the config file's token.
         env.removeValue(forKey: "BRIDGE_TOKEN")
 
@@ -301,25 +317,64 @@ final class ServerController: ObservableObject {
     /// else ask the login shell directly.
     private func resolveEvenTerminal(searchPATH: String) -> String? {
         let fm = FileManager.default
-        if !evenTerminalPath.isEmpty, fm.isExecutableFile(atPath: evenTerminalPath) {
+        if !evenTerminalPath.isEmpty, fm.isExecutableFile(atPath: evenTerminalPath),
+           Self.isTrusted(evenTerminalPath) {
             return evenTerminalPath
         }
         for dir in searchPATH.split(separator: ":") {
             let candidate = String(dir) + "/even-terminal"
-            if fm.isExecutableFile(atPath: candidate) { return candidate }
+            if fm.isExecutableFile(atPath: candidate), Self.isTrusted(candidate) { return candidate }
         }
         if let out = Self.loginShellOutput(#"printf '___E___%s' "$(command -v even-terminal)""#),
            let r = out.range(of: "___E___") {
             let p = out[r.upperBound...].trimmingCharacters(in: .whitespacesAndNewlines)
-            if !p.isEmpty, fm.isExecutableFile(atPath: p) { return p }
+            if !p.isEmpty, p.hasPrefix("/"), fm.isExecutableFile(atPath: p), Self.isTrusted(p) { return p }
         }
         return nil
+    }
+
+    /// True if `path` (and its symlink target) and every parent directory are
+    /// owned by root or this user, never world-writable, and group-writable only
+    /// for this user's own group or `admin` (Homebrew's /opt/homebrew is 775 admin).
+    static func isTrusted(_ path: String) -> Bool {
+        guard path.hasPrefix("/") else { return false }
+        // realpath(3), not NSString.resolvingSymlinksInPath (which strips /private).
+        guard let rp = realpath(path, nil) else { return false }
+        let resolved = String(cString: rp); free(rp)
+        for start in Set([path, resolved]) {
+            var p = start
+            while true {
+                guard let a = try? FileManager.default.attributesOfItem(atPath: p),
+                      let owner = a[.ownerAccountID] as? NSNumber,
+                      let perms = a[.posixPermissions] as? NSNumber else { return false }
+                let isLink = (a[.type] as? FileAttributeType) == .typeSymbolicLink
+                if owner.uint32Value != 0 && owner.uint32Value != getuid() { return false }
+                let group = (a[.groupOwnerAccountID] as? NSNumber)?.uint32Value ?? 0
+                if !isLink && perms.intValue & 0o002 != 0 { return false }
+                if !isLink && perms.intValue & 0o020 != 0 && group != 80 && group != getgid() { return false }
+                if p == "/" { break }
+                p = (p as NSString).deletingLastPathComponent
+            }
+        }
+        return true
+    }
+
+    /// Keep only absolute, existing, trusted PATH entries (order preserved, deduped).
+    static func trustedPATH(_ path: String) -> String {
+        var seen = Set<String>()
+        return path.split(separator: ":").map(String.init).filter {
+            $0.hasPrefix("/") && seen.insert($0).inserted && isTrusted($0)
+        }.joined(separator: ":")
     }
 
     /// Run a command in the user's login shell and return stdout, with a timeout
     /// so a misbehaving startup file can't hang the app.
     private static func loginShellOutput(_ command: String, timeout: TimeInterval = 5) -> String? {
-        let shell = ProcessInfo.processInfo.environment["SHELL"] ?? "/bin/zsh"
+        // Only a shell listed in /etc/shells; otherwise fall back to zsh.
+        let envShell = ProcessInfo.processInfo.environment["SHELL"] ?? ""
+        let allowed = ((try? String(contentsOfFile: "/etc/shells", encoding: .utf8)) ?? "")
+            .split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }
+        let shell = allowed.contains(envShell) ? envShell : "/bin/zsh"
         let p = Process()
         p.executableURL = URL(fileURLWithPath: shell)
         p.arguments = ["-ilc", command]   // interactive+login so nvm/rc files load
