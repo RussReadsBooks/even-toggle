@@ -4,8 +4,9 @@
 //  starts/stops the `even-terminal` server as a child process.
 //
 //  Mental model: this is like typing the `even-terminal ...` command for you,
-//  with your saved token/port/folder/model filled in — and killing it when you
-//  toggle off. Because the token and port never change, the host you paired on
+//  with your saved port/folder/model filled in — and killing it when you
+//  toggle off. even-terminal reads its own pairing token from
+//  ~/.even-terminal/config.json (this app never stores or passes it). Because the token and port never change, the host you paired on
 //  your glasses keeps working across restarts. Pair once, reuse forever.
 //
 //  IMPORTANT (why this file is more than a one-liner): a GUI app launched from
@@ -27,7 +28,6 @@ final class ServerController: ObservableObject {
     @Published var lastLog = ""
 
     // Persisted settings. @AppStorage saves these to disk automatically.
-    @AppStorage("token")            var token = ""
     @AppStorage("port")             var port = "3456"
     @AppStorage("provider")         var provider = "claude"        // "claude" or "codex"
     @AppStorage("model")            var model = "default"          // default|sonnet|opus|haiku|fable|custom
@@ -51,12 +51,16 @@ final class ServerController: ObservableObject {
         }
     }
 
+    static let evenTerminalConfigPath =
+        (NSHomeDirectory() as NSString).appendingPathComponent(".even-terminal/config.json")
+
     func toggle() { isRunning ? stop() : start() }
 
     func start() {
         guard !isRunning else { return }
-        guard !token.isEmpty else {
-            lastLog = "Set an auth token in Settings first."
+        // even-terminal reads its pairing token from its own config file.
+        guard FileManager.default.fileExists(atPath: Self.evenTerminalConfigPath) else {
+            lastLog = "No ~/.even-terminal/config.json yet. Run `even-terminal config` in Terminal first."
             return
         }
         guard !projectPath.isEmpty else {
@@ -95,8 +99,10 @@ final class ServerController: ObservableObject {
         p.currentDirectoryURL = URL(fileURLWithPath: project, isDirectory: true)
 
         // Build the same command you'd type by hand:
-        //   even-terminal --provider claude -t <token> -p <port> -d <folder> [--tailscale]
-        var args = ["--provider", provider, "-t", token, "-p", port, "-d", project]
+        //   even-terminal --provider claude -p <port> -d <folder> [--tailscale]
+        // No -t: even-terminal takes the token from ~/.even-terminal/config.json,
+        // so it never shows up in argv (visible to `ps`) or in this app's defaults.
+        var args = ["--provider", provider, "-p", port, "-d", project]
         if useTailscale { args.append("--tailscale") }
         p.arguments = args
 
@@ -105,6 +111,8 @@ final class ServerController: ObservableObject {
         var env = ProcessInfo.processInfo.environment
         let etDir = URL(fileURLWithPath: etPath).deletingLastPathComponent().path
         env["PATH"] = etDir + ":" + path
+        // Don't let a stray inherited BRIDGE_TOKEN override the config file's token.
+        env.removeValue(forKey: "BRIDGE_TOKEN")
 
         // Model selection. We do TWO things so the choice sticks even on the
         // voice-only glasses (where you can't type /model):
