@@ -39,6 +39,7 @@ final class ServerController: ObservableObject {
     @AppStorage("evenTerminalPath") var evenTerminalPath = ""
 
     private var process: Process?
+    private var caffeinate: Process?
     private var cachedPATH: String?
 
     init() {
@@ -47,7 +48,7 @@ final class ServerController: ObservableObject {
         NotificationCenter.default.addObserver(
             forName: NSApplication.willTerminateNotification, object: nil, queue: .main
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.process?.terminate() }
+            MainActor.assumeIsolated { self?.stop() }
         }
     }
 
@@ -152,6 +153,8 @@ final class ServerController: ObservableObject {
             Task { @MainActor in
                 self?.isRunning = false
                 self?.process = nil
+                self?.caffeinate?.terminate()
+                self?.caffeinate = nil
             }
         }
 
@@ -170,11 +173,14 @@ final class ServerController: ObservableObject {
 
             // Optionally keep the Mac awake for as long as the server runs.
             // `caffeinate -w <pid>` exits by itself once that pid exits.
+            // Tracked so stop() and quit end it too, not only the server's exit.
             if keepAwake {
                 let c = Process()
                 c.executableURL = URL(fileURLWithPath: "/usr/bin/caffeinate")
                 c.arguments = ["-s", "-w", String(p.processIdentifier)]
-                try? c.run()
+                c.standardOutput = FileHandle.nullDevice
+                c.standardError = FileHandle.nullDevice
+                if (try? c.run()) != nil { caffeinate = c }
             }
         } catch {
             lastLog = "Failed to start: \(error.localizedDescription)"
@@ -185,6 +191,8 @@ final class ServerController: ObservableObject {
     func stop() {
         process?.terminate()
         process = nil
+        caffeinate?.terminate()
+        caffeinate = nil
         isRunning = false
         lastLog = "Stopped."
     }
