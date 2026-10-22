@@ -165,12 +165,19 @@ final class ServerController: ObservableObject {
 
         // Give the child the real PATH, with even-terminal's own directory first
         // (that's where `node` lives for nvm/Volta/etc., so the shebang resolves).
-        var env = ProcessInfo.processInfo.environment
+        // Pass only what the server and Claude Code need, not this app's whole
+        // environment (allowlist; BRIDGE_TOKEN and other secrets never pass).
+        let keep: Set<String> = ["HOME", "USER", "LOGNAME", "SHELL", "TMPDIR", "LANG",
+                                 "SSH_AUTH_SOCK", "__CF_USER_TEXT_ENCODING"]
+        var env = ProcessInfo.processInfo.environment.filter { k, _ in
+            keep.contains(k) || k.hasPrefix("LC_")
+        }
+        env["NO_COLOR"] = "1"   // plain output for the log panel
         let etDir = URL(fileURLWithPath: etPath).deletingLastPathComponent().path
         // Only trusted (not group/world-writable) directories, so a planted
         // `node`/`claude`/`tailscale` earlier in PATH can't be picked up.
         env["PATH"] = Self.trustedPATH(etDir + ":" + path)
-        // Don't let a stray inherited BRIDGE_TOKEN override the config file's token.
+        // Belt and braces: a stray BRIDGE_TOKEN would override the config file's token.
         env.removeValue(forKey: "BRIDGE_TOKEN")
 
         // Model selection. We do TWO things so the choice sticks even on the
