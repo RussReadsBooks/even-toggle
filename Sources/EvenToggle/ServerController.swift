@@ -90,6 +90,10 @@ final class ServerController: ObservableObject {
             return
         }
 
+        // Read the token only to redact it from captured output; it's never
+        // stored, passed, or displayed.
+        let knownToken = LogRedactor.tokenFromConfig(atPath: Self.evenTerminalConfigPath)
+
         let p = Process()
         p.executableURL = URL(fileURLWithPath: etPath)
 
@@ -129,15 +133,18 @@ final class ServerController: ObservableObject {
         }
         p.environment = env
 
-        // Capture output so we can show it in Settings → Advanced (incl. the
-        // pairing QR the very first time, and any error explaining a failure).
+        // Capture output (in memory only, never written to disk) so Settings →
+        // Advanced can show errors. Token, pairing URL and QR art are redacted.
         let pipe = Pipe()
         p.standardOutput = pipe
         p.standardError = pipe
         pipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
             let data = handle.availableData
             guard !data.isEmpty, let text = String(data: data, encoding: .utf8) else { return }
-            Task { @MainActor in self?.lastLog = text }
+            // even-terminal prints the full token, a pairing URL containing it, and
+            // a QR code encoding it. Redact before anything is stored or shown.
+            let safe = LogRedactor.redact(text, knownToken: knownToken)
+            Task { @MainActor in self?.lastLog = safe }
         }
 
         // When the process ends (crash, kill, reboot), flip our state back.
