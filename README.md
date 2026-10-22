@@ -1,3 +1,9 @@
+> **Fork note (RussReadsBooks/even-toggle):** default branch `security-hardening` adds, on top of upstream `65489ad`:
+> menu-bar icon shows on/off state; server stops on quit; no copy of the pairing token (even-terminal reads `~/.even-terminal/config.json`, never `-t`/defaults);
+> token/QR redaction in the log panel; caffeinate tied to the server; no orphaned server (signals + reap on relaunch);
+> trusted-path launch, validated settings and an allowlisted child environment; build output untracked.
+> Intended to be offered upstream as a PR once tested.
+
 # EvenToggle 👓
 
 A tiny macOS menu bar app that turns your **Claude Code + Even Realities G2**
